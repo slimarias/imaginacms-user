@@ -1,5 +1,5 @@
 {
-  "name": "idavoll/user-module",
+  "name": "imagina/iuser-module",
   "type": "asgard-module",
   "description": "User module for AsgardCMS. Handles the authentication and authorisation as well as the user management.",
   "keywords": [

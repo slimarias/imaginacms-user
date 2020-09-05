@@ -7,6 +7,8 @@ use Illuminate\Http\Response;
 use Modules\User\Contracts\Authentication;
 use Modules\User\Entities\UserInterface;
 use Modules\User\Repositories\UserTokenRepository;
+use Laravel\Passport\TokenRepository;
+use Lcobucci\JWT\Parser;
 
 class TokenCan
 {
@@ -18,11 +20,15 @@ class TokenCan
      * @var Authentication
      */
     private $auth;
-
-    public function __construct(UserTokenRepository $userToken, Authentication $auth)
+  /**
+   * @var passportToken
+   */
+  private $passportToken;
+    public function __construct(UserTokenRepository $userToken, Authentication $auth, TokenRepository $passportToken)
     {
         $this->userToken = $userToken;
         $this->auth = $auth;
+      	$this->passportToken = $passportToken;
     }
 
     /**
@@ -54,7 +60,14 @@ class TokenCan
     {
         $token = $this->userToken->findByAttributes(['access_token' => $this->parseToken($token)]);
 
-        return $token->user;
+      // imagina patch: add validate with passport token
+      if($token === null){
+        $id = (new Parser())->parse($this->parseToken($token))->getHeader('jti');
+        $token = $this->passportToken->find($id);
+        if ($token === null)
+          return false;
+      }
+      return $token->user;
     }
 
     /**
