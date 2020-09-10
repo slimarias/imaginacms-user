@@ -2,6 +2,7 @@
 
 namespace Modules\User\Entities\Sentinel;
 
+
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Cartalyst\Sentinel\Users\EloquentUser;
 use Illuminate\Auth\Authenticatable;
@@ -10,10 +11,11 @@ use Laracasts\Presenter\PresentableTrait;
 use Modules\User\Entities\UserInterface;
 use Modules\User\Entities\UserToken;
 use Modules\User\Presenters\UserPresenter;
+use Laravel\Passport\HasApiTokens;
 
 class User extends EloquentUser implements UserInterface, AuthenticatableContract
 {
-    use PresentableTrait, Authenticatable;
+    use PresentableTrait, Authenticatable, HasApiTokens;
 
     protected $fillable = [
         'email',
