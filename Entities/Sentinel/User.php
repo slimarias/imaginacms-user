@@ -78,7 +78,7 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
      */
     public function isActivated()
     {
-        if (Activation::completed($this)) {
+        if (is_integer($this->getKey()) && Activation::completed($this)) {
             return true;
         }
 
