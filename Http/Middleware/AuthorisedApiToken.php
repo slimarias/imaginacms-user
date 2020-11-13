@@ -50,15 +50,16 @@ class AuthorisedApiToken
         $found = $this->userToken->findByAttributes(['access_token' => $this->parseToken($token)]);
 
         if ($found === null) {
-          // Imagina Patch: Add validation with passport token
-          $id = (new Parser())->parse($this->parseToken($token))->getHeader('jti');
-          $found = $this->passportToken->find($id);
-          if ($found === null)
-            return false;
-        }
+            // Imagina Patch: Add validation with passport token
+            //$id = (new Parser())->parse($this->parseToken($token))->getHeader('jti');
+            $user = auth('api')->user();//$this->passportToken->find($id);
+            if ($user === null)
+                return false;
+        }else
+            $user = $found->user;
 
-      	$this->auth->logUserIn($found->user);
-        
+        $this->auth->logUserIn($user);
+
         return true;
     }
 
