@@ -20,7 +20,7 @@ return [
     | a resource that requires to be logged in
     |--------------------------------------------------------------------------
     */
-    'redirect_route_not_logged_in' => 'auth/login',
+    'redirect_route_not_logged_in' => 'account.login.get',
     /*
     |--------------------------------------------------------------------------
     | Login column(s)
